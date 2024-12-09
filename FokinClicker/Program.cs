@@ -15,6 +15,10 @@ public class Program
         ConfigureServices(builder.Services);
         var app = builder.Build();
 
+        using var scope = app.Services.CreateScope();
+        using var appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        DbContextInitialiser.InitializeDbContext(appDbContext);
+
         app.MapGet("/", () => "Hello World!");
         app.MapHealthChecks("health-check");
 
@@ -23,7 +27,7 @@ public class Program
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddHealthChecks();
-        DbContextInitialiser.InitializeDbContext(services);
+        DbContextInitialiser.AddAppDbContext(services);
     }
 }
 
