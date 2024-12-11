@@ -15,12 +15,12 @@ public class DbContextInitialiser
         string GetPathToDbFile()
         {
             var applicationFolder = Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.LocalApplicationData), "CSharpClicker");
+                Environment.SpecialFolder.LocalApplicationData), "FokinClicker");
             if (!Directory.Exists(applicationFolder))
             {
                 Directory.CreateDirectory(applicationFolder);
             }
-            return Path.Combine(applicationFolder, "CSharpClicker.db");
+            return Path.Combine(applicationFolder, "FokinClicker.db");
         }
     }
 
@@ -54,10 +54,10 @@ public class DbContextInitialiser
         AddBoostIfNotExist(ActiveBoost3, price: 1600, profit: 80);
         AddBoostIfNotExist(ActiveBoost4, price: 6400, profit: 320);
 
-        AddBoostIfNotExist(BoostSupport1, price: 100, profit: 5);
-        AddBoostIfNotExist(BoostSupport2, price: 400, profit: 20);
-        AddBoostIfNotExist(BoostSupport3, price: 1600, profit: 80);
-        AddBoostIfNotExist(BoostSupport4, price: 6400, profit: 320);
+        AddBoostIfNotExist(BoostSupport1, price: 1000, profit: 5);
+        AddBoostIfNotExist(BoostSupport2, price: 4000, profit: 20);
+        AddBoostIfNotExist(BoostSupport3, price: 16000, profit: 80);
+        AddBoostIfNotExist(BoostSupport4, price: 64000, profit: 320);
 
         appDbContext.SaveChanges();
 
