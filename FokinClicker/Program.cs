@@ -3,6 +3,7 @@ using FokinClicker.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using FokinClicker.Initializer;
+using CSharpClicker.Web.Initializers;
 
 namespace FokinClicker;
 
@@ -17,7 +18,15 @@ public class Program
 
         using var scope = app.Services.CreateScope();
         using var appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
         DbContextInitialiser.InitializeDbContext(appDbContext);
+
+        app.UseMvc();
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
         app.MapGet("/", () => "Hello World!");
         app.MapHealthChecks("health-check");
@@ -27,6 +36,15 @@ public class Program
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddHealthChecks();
+        services.AddSwaggerGen();
+        services.AddMediatR(o => o.RegisterServicesFromAssembly(typeof(Program).Assembly));
+        services.AddAuthentication();
+        services.AddAuthorization();
+        services.AddMvcCore(o => o.EnableEndpointRouting = false)
+            .AddApiExplorer();
+
+
+        IdentityInitializer.AddIdentity(services);
         DbContextInitialiser.AddAppDbContext(services);
     }
 }
