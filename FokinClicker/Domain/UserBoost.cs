@@ -1,6 +1,6 @@
 ﻿namespace FokinClicker.Domain
 {
-    public class UserBoots
+    public class UserBoost
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
