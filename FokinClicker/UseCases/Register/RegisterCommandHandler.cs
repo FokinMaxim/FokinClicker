@@ -18,10 +18,14 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Unit>
         {
             throw new ValidationException("Such user already exists.");
         }
+
         var user = new ApplicationUser
         {
             UserName = request.UserName,
+            CurrentScore  = 0,
+            RecordScore = 0
         };
+
         var result = await userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)
         {
