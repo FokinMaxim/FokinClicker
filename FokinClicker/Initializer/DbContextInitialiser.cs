@@ -42,8 +42,8 @@ public class DbContextInitialiser
 
         appDbContext.Database.Migrate();
 
-        var existingBoosts = appDbContext.Boosts
-            .ToArray();
+        var existingBoosts = appDbContext.Boosts.ToArray();
+        var existingSupports = appDbContext.Supports.ToArray();
 
         AddBoostIfNotExist(PassivBoost1, price: 50, profit: 1, isAuto: true);
         AddBoostIfNotExist(PassivBoost2, price: 2000, profit: 50, isAuto: true);
@@ -54,10 +54,10 @@ public class DbContextInitialiser
         AddBoostIfNotExist(ActiveBoost3, price: 1600, profit: 80);
         AddBoostIfNotExist(ActiveBoost4, price: 6400, profit: 320);
 
-        AddBoostIfNotExist(BoostSupport1, price: 1000, profit: 5);
-        AddBoostIfNotExist(BoostSupport2, price: 4000, profit: 20);
-        AddBoostIfNotExist(BoostSupport3, price: 16000, profit: 80);
-        AddBoostIfNotExist(BoostSupport4, price: 64000, profit: 320);
+        AddSupportIfNotExist(BoostSupport1, price: 1000, multiplier: 2);
+        AddSupportIfNotExist(BoostSupport2, price: 4000, multiplier: 2);
+        AddSupportIfNotExist(BoostSupport3, price: 16000, multiplier: 2);
+        AddSupportIfNotExist(BoostSupport4, price: 64000, multiplier: 2);
 
         appDbContext.SaveChanges();
 
@@ -81,7 +81,7 @@ public class DbContextInitialiser
         }
         void AddSupportIfNotExist(string name, int multiplier, long price)
         {
-            if (!existingBoosts.Any(eb => eb.Title == name))
+            if (!existingSupports.Any(eb => eb.Title == name))
             {
                 var pathToImage = Path.Combine(".", "Resources", "BoostImages", $"{name}.png");
                 using var fileStream = File.OpenRead(pathToImage);

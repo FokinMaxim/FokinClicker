@@ -25,8 +25,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
 
         builder.Entity<UserBoost>()
             .HasOne(ub => ub.User)
-            .WithMany()
-            .HasForeignKey(p => p.UserId);
+            .WithMany(u => u.UserBoosts)
+            .HasForeignKey(ub => ub.UserId);
 
         builder.Entity<UserBoost>()
              .HasOne(ub => ub.Boost)
@@ -49,4 +49,5 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
              .HasForeignKey(ub => ub.UserBoostId);
     }
 }
+
 
