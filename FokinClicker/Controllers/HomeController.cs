@@ -2,6 +2,7 @@
 using FokinClicker.UseCases.Common;
 using FokinClicker.UseCases.GetBoosts;
 using FokinClicker.UseCases.GetCurrentUser;
+using FokinClicker.UseCases.GetSupports;
 using FokinClicker.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,10 +23,12 @@ public class HomeController : Controller
 	public async Task<IActionResult> Index()
 	{
 		var boosts = await mediator.Send(new GetBoostsQuery());
-		var user = await mediator.Send(new GetCurrentUserQuery());
+        var supports = await mediator.Send(new GetSupportsQuery());
+        var user = await mediator.Send(new GetCurrentUserQuery());
 
 		var viewModel = new IndexViewModel()
 		{
+			Supports = supports,
 			Boosts = boosts,
 			User = user,
 		};

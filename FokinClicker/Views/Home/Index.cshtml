@@ -8,10 +8,10 @@
 
     <div class="col">
         <div>
-            <h3>Добро пожаловать в колонию, @Model.User.UserName</h3>
-            <h4>У тебя уже накоплено <span id="current_score">@Model.User.CurrentScore</span> кусков руды</h4>
-            <h4>Всего ты добыл <span id="record_score">@Model.User.RecordScore</span> кусков руды</h4>
-            <h4>С одного удара киркой ты добываешь <span id="profit_per_click">@Model.User.ProfitPerClick</span> кусков</h4>
+            <h3>Добро пожаловать в клан, @Model.User.UserName</h3>
+            <h4>У тебя уже накоплено <span id="current_score">@Model.User.CurrentScore</span> кусков варп камня</h4>
+            <h4>Всего ты добыл <span id="record_score">@Model.User.RecordScore</span> варп камня</h4>
+            <h4>В сражениях ты добываешь <span id="profit_per_click">@Model.User.ProfitPerClick</span> кусков за клик</h4>
             <h4>Твои подчиненные ежесекундно добывают <span id="profit_per_second">@Model.User.ProfitPerSecond</span> кусков</h4>
         </div>
     </div>
@@ -49,6 +49,30 @@
                     </h5>
                     <h5>
                         Количество приобретенных бустов: <span class="boost-quantity">@quantity</span>
+                    </h5>
+                </button>
+            }
+        <div>
+        <h3>Военноначальники</h3>
+        <div class="d-flex">
+            @foreach (var support in Model.Supports)
+            {
+                var userSupport = Model.User.UserSupports.FirstOrDefault(ub => ub.SupportId == support.Id);
+
+                var price = userSupport?.CurrentPrice ?? support.Price;
+                var quantity = userSupport?.Quantity ?? 0;
+
+                <button class="support-button border-0 bg-secondary m-3">
+                    <span class="support-id" hidden>@support.Id</span>
+                    <h4>@support.Title</h4>
+                    <img src="data:image/png;base64, @Convert.ToBase64String(support.Image)" height="100" />
+                    <h5 class="support-price-string">Цена: <span class="support-price">@price</span></h5>
+                    <h5>
+                        в два раза уселяет @Model.Boosts.FirstOrDefault(ub => ub.Id == support.BoostId).Title
+                    </h5>
+
+                    <h5>
+                       Количество нанятых военначальников: <span class="support-quantity">@quantity</span>
                     </h5>
                 </button>
             }

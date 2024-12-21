@@ -35,7 +35,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
 
         builder.Entity<UserSupport>()
             .HasOne(ub => ub.User)
-            .WithMany()
+            .WithMany(u => u.UserSupports)
             .HasForeignKey(p => p.UserId);
 
         builder.Entity<UserSupport>()

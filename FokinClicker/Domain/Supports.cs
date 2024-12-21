@@ -6,9 +6,10 @@
 
         public string Title { get; set; }
 
-        public int Multiplier { get; set; }
-        
         public long Price { get; set; }
+
+        public int Multiplier { get; set; }
+        public int BoostId { get; set; }
 
         public byte[] Image { get; set; }
     }

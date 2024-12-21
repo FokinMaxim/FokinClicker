@@ -9,6 +9,8 @@ public interface IAppDbContext
     DbSet<ApplicationUser> ApplicationUsers { get; }
     DbSet<Boost> Boosts { get; }
     DbSet<UserBoost> UserBoosts { get; }
+    DbSet<Supports> Supports { get; }
+    DbSet<UserSupport> UserSupports { get; }
 
-	Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

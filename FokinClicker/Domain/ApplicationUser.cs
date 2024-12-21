@@ -11,6 +11,7 @@ namespace FokinClicker.Domain
 
         public long RecordScore { get; set; }
 
-        public IEnumerable<UserBoost> UserBoosts { get; set; } = [];
+        public IEnumerable<UserBoost> UserBoosts { get; set; }
+        public IEnumerable<UserSupport> UserSupports { get; set; }
     }
 }

@@ -17,7 +17,7 @@ public class GetSupportsQueryHandler : IRequestHandler<GetSupportsQuery, IReadOn
     public async Task<IReadOnlyCollection<SupportDto>> Handle(GetSupportsQuery request, CancellationToken cancellationToken)
     {
         return await mapper
-            .ProjectTo<SupportDto>(appDbContext.Boosts)
+            .ProjectTo<SupportDto>(appDbContext.Supports)
             .ToArrayAsync();
     }
 }
