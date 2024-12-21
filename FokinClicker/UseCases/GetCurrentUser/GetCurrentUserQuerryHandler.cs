@@ -27,7 +27,9 @@ public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, U
 		var user = await appDbContext.ApplicationUsers
 			.Include(user => user.UserBoosts)
 			.ThenInclude(ub => ub.Boost)
-			.FirstAsync(user => user.Id == userId);
+            .Include(user => user.UserSupports)
+			.ThenInclude(us => us.Support)
+            .FirstAsync(user => user.Id == userId);
 
 		var userDto = mapper.Map<UserDto>(user);
 

@@ -53,14 +53,20 @@
                 </button>
             }
         <div>
+        
         <h3>Военноначальники</h3>
         <div class="d-flex">
             @foreach (var support in Model.Supports)
             {
                 var userSupport = Model.User.UserSupports.FirstOrDefault(ub => ub.SupportId == support.Id);
-
-                var price = userSupport?.CurrentPrice ?? support.Price;
-                var quantity = userSupport?.Quantity ?? 0;
+                var Us = Model.User.UserSupports;
+                var price = support.Price;
+                var quantity = 0;  
+                if (userSupport != null)
+                {
+                    price = userSupport?.CurrentPrice ?? support.Price;
+                    quantity = userSupport?.Quantity ?? 0;    
+                }
 
                 <button class="support-button border-0 bg-secondary m-3">
                     <span class="support-id" hidden>@support.Id</span>
