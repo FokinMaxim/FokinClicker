@@ -24,7 +24,9 @@ public class BuyBoostCommandHandler : IRequestHandler<BuyBoostCommand, ScoreBoos
 		var user = await appDbContext.ApplicationUsers
 			.Include(user => user.UserBoosts)
 			.ThenInclude(ub => ub.Boost)
-			.FirstAsync(user => user.Id == userId, cancellationToken);
+            .Include(user => user.UserSupports)
+            .ThenInclude(ub => ub.Support)
+            .FirstAsync(user => user.Id == userId, cancellationToken);
 		var boost = await appDbContext.Boosts
 			.FirstAsync(b => b.Id == request.BoostId, cancellationToken);
 
@@ -69,8 +71,8 @@ public class BuyBoostCommandHandler : IRequestHandler<BuyBoostCommand, ScoreBoos
 			{
 				CurrentScore = user.CurrentScore,
 				RecordScore = user.RecordScore,
-				ProfitPerClick = user.UserBoosts.GetProfit(),
-				ProfitPerSecond = user.UserBoosts.GetProfit(shouldCalculateAutoBoosts: true)
+				ProfitPerClick = user.GetUserProfit(),
+				ProfitPerSecond = user.GetUserProfit(shouldCalculateAutoBoosts: true)
 			},
 			Price = userBoost.CurrentPrice,
 			Quantity = userBoost.Quantity,

@@ -14,5 +14,6 @@ public class MappingProfie : Profile
         CreateMap<UserBoost, UserBoostDto>();
         CreateMap<ApplicationUser, UserDto>();
         CreateMap<Supports, SupportDto>();
+        CreateMap<UserSupport, UserSupportDto>();
     }
 }

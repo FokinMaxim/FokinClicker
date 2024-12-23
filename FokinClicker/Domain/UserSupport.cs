@@ -11,10 +11,6 @@
 
         public Supports Support { get; set; }
 
-        public int UserBoostId { get; set; }
-
-        public Boost UserBoost { get; set; }
-
         public long CurrentPrice { get; set; }
 
         public int Quantity { get; set; }

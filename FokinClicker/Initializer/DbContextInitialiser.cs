@@ -40,6 +40,12 @@ public class DbContextInitialiser
         const string BoostSupport3 = "загонщик";
         const string BoostSupport4 = "инженер";
 
+        var support_to_boost = new Dictionary<string, string> {
+            { BoostSupport1, ActiveBoost1},
+            { BoostSupport2, ActiveBoost2},
+            { BoostSupport3, ActiveBoost3},
+            { BoostSupport4, ActiveBoost4}
+        };
         appDbContext.Database.Migrate();
 
         var existingBoosts = appDbContext.Boosts.ToArray();
@@ -93,6 +99,7 @@ public class DbContextInitialiser
                     Multiplier = multiplier,
                     Price = price,
                     Image = memoryStream.ToArray(),
+                    BoostId = appDbContext.Boosts.Where(b => support_to_boost[name] == b.Title).First().Id,
                 });
             }
         }

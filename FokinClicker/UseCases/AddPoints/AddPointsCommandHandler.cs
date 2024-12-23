@@ -23,10 +23,12 @@ public class AddPointsCommandHandler : IRequestHandler<AddPointsCommand, ScoreDt
 		var user = await appDbContext.ApplicationUsers
 			.Include(user => user.UserBoosts)
 			.ThenInclude(ub => ub.Boost)
-			.FirstAsync(user => user.Id == userId);
+            .Include(user => user.UserSupports)
+            .ThenInclude(ub => ub.Support)
+            .FirstAsync(user => user.Id == userId);
 
-		var profitPerSecond = user.UserBoosts.GetProfit(shouldCalculateAutoBoosts: true);
-		var profitPerClick = user.UserBoosts.GetProfit();
+		var profitPerSecond = user.GetUserProfit(shouldCalculateAutoBoosts: true);
+		var profitPerClick = user.GetUserProfit();
 
 		var autoPoints = profitPerSecond * request.Seconds;
 		var clickedPoints = profitPerClick * request.Clicks;

@@ -18,6 +18,7 @@ $(document).ready(function () {
     setInterval(addSecond, 1000)
 
     const boostButtons = document.getElementsByClassName("boost-button");
+    const supportButtons = document.getElementsByClassName("support-button");
 
     for (let i = 0; i < boostButtons.length; i++) {
         const boostButton = boostButtons[i];
@@ -25,7 +26,14 @@ $(document).ready(function () {
         boostButton.onclick = () => boostButtonClick(boostButton);
     }
 
+    for (let i = 0; i < supportButtons.length; i++) {
+        const supportButton = supportButtons[i];
+
+        supportButton.onclick = () => supportButtonClick(supportButton);
+    }
+
     toggleBoostsAvailability();
+    toggleSupportsAvailability();
 })
 
 function boostButtonClick(boostButton) {
@@ -59,6 +67,44 @@ function onBuyBoostSuccess(response, boostButton) {
 
     boostPriceElement.innerText = boostPrice;
     boostQuantityElement.innerText = boostQuantity;
+
+    updateScoreFromApi(score);
+}
+
+
+
+
+function supportButtonClick(supportButton) {
+    if (clicks > 0 || seconds > 0) {
+        addPointsToScore();
+    }
+    buySupport(supportButton);
+}
+
+function buySupport(supportButton) {
+    const supportIdElement = supportButton.getElementsByClassName("support-id")[0];
+    const supportId = supportIdElement.innerText;
+
+    $.ajax({
+        url: '/support/buy',
+        method: 'post',
+        dataType: 'json',
+        data: { supportId: supportId },
+        success: (response) => onBuySupportSuccess(response, supportButton),
+    });
+}
+
+function onBuySupportSuccess(response, supportButton) {
+    const score = response["score"];
+
+    const supportPriceElement = supportButton.getElementsByClassName("support-price")[0];
+    const supportQuantityElement = supportButton.getElementsByClassName("support-quantity")[0];
+
+    const supportPrice = Number(response["price"]);
+    const supportQuantity = Number(response["quantity"]);
+
+    supportPriceElement.innerText = supportPrice;
+    supportQuantityElement.innerText = supportQuantity;
 
     updateScoreFromApi(score);
 }
@@ -103,6 +149,7 @@ function updateUiScore() {
     profitPerSecondElement.innerText = profitPerSecond;
 
     toggleBoostsAvailability();
+    toggleSupportsAvailability();
 }
 
 function addPointsFromClick() {
@@ -151,5 +198,23 @@ function toggleBoostsAvailability() {
         }
 
         boostButton.disabled = false;
+    }
+}
+
+function toggleSupportsAvailability() {
+    const supportButtons = document.getElementsByClassName("support-button");
+
+    for (let i = 0; i < supportButtons.length; i++) {
+        const supportButton = supportButtons[i];
+
+        const supportPriceElement = supportButton.getElementsByClassName("support-price")[0];
+        const supportPrice = Number(supportPriceElement.innerText);
+
+        if (supportPrice > currentScore) {
+            supportButton.disabled = true;
+            continue;
+        }
+
+        supportButton.disabled = false;
     }
 }

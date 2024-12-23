@@ -33,8 +33,8 @@ public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, U
 
 		var userDto = mapper.Map<UserDto>(user);
 
-		userDto.ProfitPerClick = user.UserBoosts.GetProfit();
-		userDto.ProfitPerSecond = user.UserBoosts.GetProfit(shouldCalculateAutoBoosts: true);
+		userDto.ProfitPerClick = user.GetUserProfit();
+		userDto.ProfitPerSecond = user.GetUserProfit(shouldCalculateAutoBoosts: true);
 
 		return userDto;
 	}

@@ -43,10 +43,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
              .WithMany()
              .HasForeignKey(ub => ub.SupportId);
 
-        builder.Entity<UserSupport>()
-             .HasOne(ub => ub.UserBoost)
-             .WithMany()
-             .HasForeignKey(ub => ub.UserBoostId);
     }
 }
 
